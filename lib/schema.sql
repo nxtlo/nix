@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS cofig;
+
+CREATE TABLE IF NOT EXISTS config (
+    gid BIGINT PRIMARY KEY,
+    prefix TEXT
+);
+
+INSERT INTO config(gid, prefix)
+    VALUES(758236292415881217, '!')
