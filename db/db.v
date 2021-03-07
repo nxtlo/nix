@@ -23,7 +23,7 @@ fn newpool(pool Pool) &Pool {
 
 // Creates the db pool.
 pub fn pgpool() pg.DB {
-	pool := newpool(user: '', password: '', dbname: '')
+	pool := newpool(user: 'fate', password: 'fate', dbname: 'fate')
 	conn := pg.connect(pg.Config{
 		host: pool.host
 		port: pool.port
