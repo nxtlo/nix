@@ -5,19 +5,23 @@ import os
 import db
 import discordv as cord
 
-struct Config {
+#flag -I @VROOT/ctypes
+#flag @VROOT/ctypes/type.c
+#include "types.h"
+
+[typedef]
+struct C.Config {
 mut:
-	token    string = os.getenv('BOT_TOKEN')
-	prefix   string = '!'
+	token     C.types
+	prefix   string
 	owner_id int
 }
 
-fn ready() {
-	println('Bot is ready.')
-}
+fn C.fetch_token() charptr
 
-fn cfg(bot Config) &Config {
-	return &Config{
+
+fn cfg(bot &C.Config) &C.Config {
+	return &C.Config{
 		token: bot.token
 		prefix: bot.prefix
 		owner_id: bot.owner_id
@@ -67,10 +71,13 @@ fn on_message(mut bot cord.Client, msg &cord.MessageCreate) {
 	}
 }
 
+fn ready() {
+	println('Bot is ready.')
+}
 fn main() {
-	conf := cfg(owner_id: 350750086357057537)
+	conf := cfg(token: C.Config.token)
 
-	if conf.token == '' {
+	if ptr_str(conf.token) == '' {
 		println('Exiting due to no token was provided.')
 		return
 	}
