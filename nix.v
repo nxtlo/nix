@@ -55,13 +55,16 @@ fn on_message(mut bot cord.Client, msg &cord.MessageCreate) {
 			bot.channel_message_send(msg.channel_id, content: 'trihard') or { }
 		}
 		prefix + 'api' {
-			command.run_api() or { }
+			command.from_cpp() or { }
 		}
 		prefix + 'func' {
 			command.from_func(mut bot, msg) or { }
 		}
 		prefix + 'ui' {
 			command.from_embed(mut bot, msg) or { }
+		}
+		prefix + 'cpp' {
+			bot.channel_message_send(msg.channel_id, content: command.show_file()) or { }
 		}
 		else {}
 	}
