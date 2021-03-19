@@ -1,27 +1,23 @@
 module main
 
-import modules as command
+import commands.command
 import os
 import db
 import discordv as cord
 
-#flag -I @VROOT/ctypes
-#flag @VROOT/ctypes/type.c
-#include "types.h"
-
-[typedef]
-struct C.Config {
+struct Config {
 mut:
-	token     C.types
+	token    string = os.getenv("BOT_TOKEN")
 	prefix   string
 	owner_id int
 }
 
-fn C.fetch_token() charptr
+fn describe() string {
+	return "Function $@FN, Module $@MOD, Methods $@METHOD"
+}
 
-
-fn cfg(bot &C.Config) &C.Config {
-	return &C.Config{
+fn cfg(bot &Config) &Config {
+	return &Config{
 		token: bot.token
 		prefix: bot.prefix
 		owner_id: bot.owner_id
@@ -75,11 +71,10 @@ fn ready() {
 	println('Bot is ready.')
 }
 fn main() {
-	conf := cfg(token: C.Config.token)
+	conf := cfg(owner_id: 0)
 
-	if ptr_str(conf.token) == '' {
-		println('Exiting due to no token was provided.')
-		return
+	if isnil(conf.token) {
+		println(error("Bot token error"))
 	}
 	mut bot := cord.new(token: conf.token) ?
 	mut pool := db.pgpool()
@@ -88,6 +83,7 @@ fn main() {
 		pool.exec(exec('./lib/schema.sql')) ?
 	}
 	bot.on_message_create(on_message)
+	describe()
 	ready()
 	bot.open() ?
 }

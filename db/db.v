@@ -1,8 +1,6 @@
 module db
-
 import pg
 
-// TODO call structs from a C file.
 struct Pool {
 	host string = 'localhost'
 	port int = 5432
@@ -31,6 +29,5 @@ pub fn pgpool() pg.DB {
 		password: pool.password
 		dbname: pool.dbname
 	}) or { panic(err) }
-
 	return conn
 }

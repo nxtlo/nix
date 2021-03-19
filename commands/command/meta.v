@@ -1,4 +1,4 @@
-module modules
+module command
 
 import time
 import discordv as cord

@@ -1,4 +1,4 @@
-module modules
+module command
 import os
 
 [unsafe]
